@@ -25,8 +25,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-orange-100 transition-colors max-md:border-orange-500/20 ${
-        scrolled ? "bg-white shadow-lg shadow-orange-900/10 max-md:bg-[#0b0b0d]" : "bg-white/95 max-md:bg-[#0b0b0d]"
+      className={`fixed inset-x-0 top-0 z-50 border-b border-orange-500/20 transition-colors ${
+        scrolled ? "bg-[#0f0a05] shadow-lg shadow-black/30" : "bg-[#0f0a05]/96"
       }`}
     >
       <nav className="section-shell flex h-18 min-h-18 items-center justify-between gap-2 py-3" aria-label="Primary navigation">
@@ -35,10 +35,8 @@ export default function Navbar() {
             Z
           </span>
           <span className="min-w-0">
-            <span className="font-display block truncate text-2xl uppercase leading-none text-[#1F2937] max-md:text-white lg:text-3xl">
-              Zynger Club
-            </span>
-            <span className="hidden truncate text-xs font-extrabold uppercase tracking-[0.12em] text-orange-600 lg:block">
+            <span className="font-display block truncate text-2xl uppercase leading-none text-white lg:text-3xl">Zynger Club</span>
+            <span className="hidden truncate text-xs font-extrabold uppercase tracking-[0.12em] text-orange-400 lg:block">
               Fried Chicken Cafe
             </span>
           </span>
@@ -49,7 +47,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="focus-ring min-h-11 rounded-full px-2 py-3 text-sm font-extrabold text-gray-800 transition hover:bg-orange-100 hover:text-orange-700 lg:px-4 lg:text-base"
+              className="focus-ring min-h-11 rounded-full px-2 py-3 text-sm font-extrabold text-[#f3d6b3] transition hover:bg-orange-500/15 hover:text-white lg:px-4 lg:text-base"
             >
               {link.label}
             </a>
@@ -68,21 +66,21 @@ export default function Navbar() {
           aria-expanded={open}
           aria-label="Toggle navigation menu"
           onClick={() => setOpen((value) => !value)}
-          className="focus-ring inline-flex size-12 items-center justify-center rounded-2xl border border-orange-500/30 bg-[#151515] text-3xl font-black leading-none text-orange-400 md:hidden"
+          className="focus-ring inline-flex size-12 items-center justify-center rounded-2xl border border-orange-500/30 bg-[#20140c] text-3xl font-black leading-none text-orange-400 md:hidden"
         >
           {open ? "×" : "☰"}
         </button>
       </nav>
 
       {open ? (
-        <div className="border-t border-orange-500/20 bg-[#0b0b0d] px-4 py-5 shadow-xl md:hidden">
+        <div className="border-t border-orange-500/20 bg-[#0f0a05] px-4 py-5 shadow-xl md:hidden">
           <div className="mx-auto grid max-w-xl gap-3">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="focus-ring min-h-12 rounded-2xl bg-[#151515] px-5 py-4 text-lg font-extrabold text-white"
+                className="focus-ring min-h-12 rounded-2xl bg-[#20140c] px-5 py-4 text-lg font-extrabold text-white"
               >
                 {link.label}
               </a>
@@ -91,7 +89,7 @@ export default function Navbar() {
               <a
                 href="#menu"
                 onClick={() => setOpen(false)}
-                className="focus-ring min-h-12 rounded-2xl bg-[#151515] px-4 py-4 text-center font-extrabold text-orange-300 ring-2 ring-orange-500"
+                className="focus-ring min-h-12 rounded-2xl bg-[#fff7ed] px-4 py-4 text-center font-extrabold text-[#1f2937] ring-2 ring-orange-500"
               >
                 View Menu
               </a>

@@ -17,13 +17,13 @@ export default function SectionHeader({ eyebrow, title, description, light }: Se
       </p>
       <h2
         className={`font-display text-4xl uppercase leading-none md:text-6xl ${
-          light ? "text-white" : "text-[#1F2937]"
+          light ? "text-white" : "text-white"
         }`}
       >
         {title}
       </h2>
       {description ? (
-        <p className={`mx-auto mt-4 max-w-2xl text-base md:text-lg ${light ? "text-orange-50" : "text-gray-700"}`}>
+        <p className={`mx-auto mt-4 max-w-2xl text-base md:text-lg ${light ? "text-orange-50" : "text-[#f3d6b3]"}`}>
           {description}
         </p>
       ) : null}

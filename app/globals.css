@@ -6,8 +6,12 @@
   --gold: #fdba21;
   --red: #dc2626;
   --cream: #fff7ed;
-  --ink: #1f2937;
+  --ink: #fff7ed;
   --footer: #1a120b;
+  --dark: #0f0a05;
+  --card: #1c120a;
+  --card-2: #20140c;
+  --muted: #f3d6b3;
 }
 
 * {
@@ -24,8 +28,9 @@ body {
   margin: 0;
   max-width: 100%;
   background:
-    radial-gradient(circle at 12% 10%, rgba(253, 186, 33, 0.25), transparent 30rem),
-    linear-gradient(180deg, #fff7ed 0%, #fffaf5 42%, #fff7ed 100%);
+    radial-gradient(circle at 16% -8%, rgba(249, 115, 22, 0.28), transparent 24rem),
+    radial-gradient(circle at 88% 12%, rgba(220, 38, 38, 0.12), transparent 20rem),
+    linear-gradient(180deg, #0f0a05 0%, #140d08 45%, #0f0a05 100%);
   color: var(--ink);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
@@ -53,8 +58,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background-image: linear-gradient(rgba(249, 115, 22, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249, 115, 22, 0.045) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(249, 115, 22, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 115, 22, 0.07) 1px, transparent 1px);
   background-size: 38px 38px;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
 }
@@ -120,13 +125,17 @@ select {
   min-height: 48px;
   width: 100%;
   border-radius: 1rem;
-  border: 2px solid #fed7aa;
-  background: #fff7ed;
+  border: 2px solid rgba(249, 115, 22, 0.38);
+  background: #120c07;
   padding: 0.85rem 1rem;
-  color: #1f2937;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
   outline: none;
+}
+
+.field-input::placeholder {
+  color: #b8a38f;
 }
 
 .field-input:focus-visible {
@@ -162,68 +171,49 @@ select {
   }
 }
 
-@media (max-width: 767px) {
-  body {
-    background:
-      radial-gradient(circle at 50% -10%, rgba(249, 115, 22, 0.28), transparent 18rem),
-      linear-gradient(180deg, #080808 0%, #111111 44%, #0b0b0d 100%);
-    color: #f9fafb;
-  }
+section {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(249, 115, 22, 0.11), transparent 22rem),
+    linear-gradient(180deg, #0f0a05 0%, #140d08 100%);
+}
 
-  body::before {
-    background-image: linear-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(249, 115, 22, 0.08) 1px, transparent 1px);
-    mask-image: linear-gradient(to bottom, black, transparent 55%);
-  }
+[class*="bg-white"],
+[class*="bg-[#FFF7ED]"],
+[class*="bg-orange-50"] {
+  background-color: var(--card) !important;
+}
 
-  section {
-    background-color: #0b0b0d;
-  }
+[class*="bg-orange-100"],
+[class*="bg-red-50"],
+[class*="bg-green-50"],
+[class*="bg-yellow-100"] {
+  background-color: var(--card-2) !important;
+}
 
-  [class*="bg-white"],
-  [class*="bg-[#FFF7ED]"],
-  [class*="bg-orange-50"] {
-    background-color: #151515 !important;
-  }
+[class*="text-[#1F2937]"],
+[class*="text-gray-900"],
+[class*="text-gray-800"] {
+  color: #fff7ed !important;
+}
 
-  [class*="bg-orange-100"],
-  [class*="bg-red-50"],
-  [class*="bg-green-50"],
-  [class*="bg-yellow-100"] {
-    background-color: #1f1f1f !important;
-  }
+[class*="text-gray-700"],
+[class*="text-gray-600"],
+[class*="text-orange-50"] {
+  color: var(--muted) !important;
+}
 
-  [class*="text-[#1F2937]"],
-  [class*="text-gray-900"],
-  [class*="text-gray-800"],
-  [class*="text-gray-700"],
-  [class*="text-gray-600"] {
-    color: #f9fafb !important;
-  }
+[class*="text-orange-800"],
+[class*="text-orange-700"] {
+  color: #fed7aa !important;
+}
 
-  [class*="text-orange-800"],
-  [class*="text-orange-700"] {
-    color: #fed7aa !important;
-  }
+[class*="border-orange-100"],
+[class*="border-orange-200"] {
+  border-color: rgba(249, 115, 22, 0.24) !important;
+}
 
-  [class*="border-orange-100"],
-  [class*="border-orange-200"] {
-    border-color: rgba(249, 115, 22, 0.24) !important;
-  }
-
-  .field-input {
-    border-color: rgba(249, 115, 22, 0.38);
-    background: #111111;
-    color: #ffffff;
-  }
-
-  .field-input::placeholder {
-    color: #9ca3af;
-  }
-
-  .card-shadow,
-  .premium-shadow,
-  .orange-shadow {
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
-  }
+.card-shadow,
+.premium-shadow,
+.orange-shadow {
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.46);
 }
