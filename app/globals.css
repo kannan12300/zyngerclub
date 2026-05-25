@@ -161,3 +161,69 @@ select {
     transition-duration: 0.01ms !important;
   }
 }
+
+@media (max-width: 767px) {
+  body {
+    background:
+      radial-gradient(circle at 50% -10%, rgba(249, 115, 22, 0.28), transparent 18rem),
+      linear-gradient(180deg, #080808 0%, #111111 44%, #0b0b0d 100%);
+    color: #f9fafb;
+  }
+
+  body::before {
+    background-image: linear-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249, 115, 22, 0.08) 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, black, transparent 55%);
+  }
+
+  section {
+    background-color: #0b0b0d;
+  }
+
+  [class*="bg-white"],
+  [class*="bg-[#FFF7ED]"],
+  [class*="bg-orange-50"] {
+    background-color: #151515 !important;
+  }
+
+  [class*="bg-orange-100"],
+  [class*="bg-red-50"],
+  [class*="bg-green-50"],
+  [class*="bg-yellow-100"] {
+    background-color: #1f1f1f !important;
+  }
+
+  [class*="text-[#1F2937]"],
+  [class*="text-gray-900"],
+  [class*="text-gray-800"],
+  [class*="text-gray-700"],
+  [class*="text-gray-600"] {
+    color: #f9fafb !important;
+  }
+
+  [class*="text-orange-800"],
+  [class*="text-orange-700"] {
+    color: #fed7aa !important;
+  }
+
+  [class*="border-orange-100"],
+  [class*="border-orange-200"] {
+    border-color: rgba(249, 115, 22, 0.24) !important;
+  }
+
+  .field-input {
+    border-color: rgba(249, 115, 22, 0.38);
+    background: #111111;
+    color: #ffffff;
+  }
+
+  .field-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .card-shadow,
+  .premium-shadow,
+  .orange-shadow {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+  }
+}
