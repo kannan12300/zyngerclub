@@ -169,7 +169,7 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
 
   return (
     <>
-      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-hidden rounded-[1.5rem] border border-orange-200 bg-white shadow-xl shadow-orange-900/12 lg:block">
+      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-hidden rounded-[1.5rem] border border-orange-200 bg-white shadow-xl shadow-orange-900/12 xl:block">
         <CartPanel
           title="Your Cart"
           lines={lines}
@@ -190,14 +190,14 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
             setStep("cart");
             setDrawerOpen(true);
           }}
-          className="focus-ring fixed bottom-24 right-4 z-40 min-h-12 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white shadow-xl shadow-orange-900/20 lg:hidden"
+          className="focus-ring fixed bottom-24 right-4 z-40 min-h-12 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white shadow-xl shadow-orange-900/20 xl:hidden"
         >
           Cart ₹{total}
         </button>
       ) : null}
 
       {drawerOpen ? (
-        <div className="fixed inset-0 z-[60] lg:hidden" role="dialog" aria-modal="true" aria-label={drawerTitle}>
+        <div className="fixed inset-0 z-[60] xl:hidden" role="dialog" aria-modal="true" aria-label={drawerTitle}>
           <button
             type="button"
             aria-label="Close cart drawer"
@@ -258,7 +258,7 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
       ) : null}
 
       {step !== "cart" ? (
-        <div className="fixed inset-0 z-[60] hidden place-items-center bg-black/45 p-5 lg:grid" role="dialog" aria-modal="true" aria-label={drawerTitle}>
+        <div className="fixed inset-0 z-[60] hidden place-items-center bg-black/45 p-5 xl:grid" role="dialog" aria-modal="true" aria-label={drawerTitle}>
           <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[1.5rem] bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-orange-100 px-6 py-4">
               <h3 className="font-display text-4xl uppercase text-[#1F2937]">{drawerTitle}</h3>

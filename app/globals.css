@@ -15,17 +15,36 @@
 }
 
 html {
+  max-width: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  max-width: 100%;
   background:
     radial-gradient(circle at 12% 10%, rgba(253, 186, 33, 0.25), transparent 30rem),
     linear-gradient(180deg, #fff7ed 0%, #fffaf5 42%, #fff7ed 100%);
   color: var(--ink);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+main,
+section,
+header,
+footer {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 body::before {
@@ -58,9 +77,11 @@ select {
 }
 
 .section-shell {
-  width: min(1160px, 100%);
+  width: 100%;
+  max-width: 1280px;
   margin-inline: auto;
   padding-inline: 12px;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {

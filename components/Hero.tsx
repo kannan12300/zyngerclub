@@ -26,7 +26,7 @@ export default function Hero() {
             Kunnamkulam · Thrissur
           </MotionDiv>
           <MotionDiv initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.06, duration: 0.35 }}>
-            <h1 className="font-display max-w-3xl text-5xl uppercase leading-[0.94] text-[#1F2937] min-[390px]:text-6xl md:text-7xl lg:text-8xl">
+            <h1 className="font-display max-w-3xl break-words text-5xl uppercase leading-[0.94] text-[#1F2937] md:text-6xl lg:text-7xl">
               Kunnamkulam&apos;s <span className="text-orange-600">Crispy Chicken</span> Spot
             </h1>
             <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-gray-700 md:text-xl md:leading-8">
@@ -34,7 +34,7 @@ export default function Hero() {
             </p>
           </MotionDiv>
 
-          <div className="mt-7 grid grid-cols-1 gap-3 min-[390px]:grid-cols-2 md:flex">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex md:flex-wrap">
             <a
               href="#menu"
               className="focus-ring min-h-12 rounded-full bg-orange-600 px-6 py-4 text-center text-base font-extrabold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700"
@@ -51,13 +51,13 @@ export default function Hero() {
               href={createWhatsAppLink()}
               target="_blank"
               rel="noreferrer"
-              className="focus-ring min-h-12 rounded-full bg-green-600 px-6 py-4 text-center text-base font-extrabold text-white transition hover:bg-green-700 min-[390px]:col-span-2 md:col-span-1"
+              className="focus-ring min-h-12 rounded-full bg-green-600 px-6 py-4 text-center text-base font-extrabold text-white transition hover:bg-green-700 sm:col-span-2 md:col-span-1"
             >
               WhatsApp Order
             </a>
           </div>
 
-          <div className="mt-7 grid grid-cols-1 gap-3 min-[390px]:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {trustBadges.map((badge) => (
               <div key={badge} className="rounded-2xl border border-orange-100 bg-white px-4 py-3 text-center text-sm font-extrabold text-[#1F2937] shadow-sm md:text-base">
                 {badge}

@@ -63,7 +63,7 @@ export default function MenuSection() {
   }
 
   return (
-    <section id="menu" className="py-16 md:py-24">
+    <section id="menu" className="w-full overflow-hidden py-14 md:py-20">
       <div className="section-shell">
         <SectionHeader
           eyebrow="Full Menu"
@@ -71,9 +71,9 @@ export default function MenuSection() {
           description="Search, filter and build a WhatsApp order from the real Zynger Club menu."
         />
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-          <div>
-            <div className="sticky top-[72px] z-20 mb-6 rounded-[1.25rem] border border-orange-100 bg-white p-3 shadow-lg shadow-orange-900/8 md:p-4">
+        <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0 overflow-hidden">
+            <div className="sticky top-[72px] z-20 mb-6 max-w-full overflow-hidden rounded-[1.25rem] border border-orange-100 bg-white p-3 shadow-lg shadow-orange-900/8 md:p-4">
               <label htmlFor="menu-search" className="sr-only">
                 Search menu
               </label>
@@ -84,7 +84,7 @@ export default function MenuSection() {
                 placeholder="Search burgers, meals, mojitos..."
                 className="focus-ring mb-4 min-h-12 w-full rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 text-base font-bold text-[#1F2937] outline-none placeholder:text-gray-500"
               />
-              <div className="snap-gallery -mx-1 flex gap-2 overflow-x-auto px-1 pb-1" role="tablist" aria-label="Menu categories">
+              <div className="snap-gallery flex max-w-full gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Menu categories">
                 {(["All", ...menuCategories] as const).map((category) => (
                   <button
                     key={category}
@@ -111,7 +111,7 @@ export default function MenuSection() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredItems.map((item) => (
                 <MenuCard key={item.id} item={item} onAdd={addItem} />
               ))}

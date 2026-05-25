@@ -29,25 +29,25 @@ export default function Navbar() {
         scrolled ? "bg-white shadow-lg shadow-orange-900/10" : "bg-white/95"
       }`}
     >
-      <nav className="section-shell flex h-18 min-h-18 items-center justify-between gap-3 py-3" aria-label="Primary navigation">
-        <a href="#home" className="focus-ring flex min-w-0 items-center gap-3 rounded-full" onClick={() => setOpen(false)}>
+      <nav className="section-shell flex h-18 min-h-18 items-center justify-between gap-2 py-3" aria-label="Primary navigation">
+        <a href="#home" className="focus-ring flex shrink-0 items-center gap-2 rounded-full lg:gap-3" onClick={() => setOpen(false)}>
           <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-orange-600 font-display text-2xl text-white shadow-lg shadow-orange-700/20">
             Z
           </span>
           <span className="min-w-0">
-            <span className="font-display block truncate text-3xl uppercase leading-none text-[#1F2937]">Zynger Club</span>
-            <span className="block truncate text-xs font-extrabold uppercase tracking-[0.12em] text-orange-600">
+            <span className="font-display block truncate text-2xl uppercase leading-none text-[#1F2937] lg:text-3xl">Zynger Club</span>
+            <span className="hidden truncate text-xs font-extrabold uppercase tracking-[0.12em] text-orange-600 lg:block">
               Fried Chicken Cafe
             </span>
           </span>
         </a>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden min-w-0 items-center gap-0 md:flex lg:gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="focus-ring min-h-11 rounded-full px-4 py-3 text-base font-extrabold text-gray-800 transition hover:bg-orange-100 hover:text-orange-700"
+              className="focus-ring min-h-11 rounded-full px-2 py-3 text-sm font-extrabold text-gray-800 transition hover:bg-orange-100 hover:text-orange-700 lg:px-4 lg:text-base"
             >
               {link.label}
             </a>
@@ -56,7 +56,7 @@ export default function Navbar() {
 
         <a
           href="#menu"
-          className="focus-ring hidden min-h-11 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700 md:inline-flex"
+          className="focus-ring hidden min-h-11 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700 lg:inline-flex"
         >
           Order Now
         </a>
