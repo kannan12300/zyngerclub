@@ -111,7 +111,7 @@ export default function MenuSection() {
               </p>
             </div>
 
-            <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid min-w-0 grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
               {filteredItems.map((item) => (
                 <MenuCard key={item.id} item={item} onAdd={addItem} />
               ))}

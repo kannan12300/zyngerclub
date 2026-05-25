@@ -32,7 +32,8 @@ test.describe("responsive layout", () => {
 
       await page.screenshot({
         path: path.join(screenshotDir, `${viewport.name}.png`),
-        fullPage: true
+        fullPage: true,
+        timeout: 10_000
       });
 
       const metrics = await page.evaluate(() => ({
