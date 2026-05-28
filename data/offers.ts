@@ -5,6 +5,41 @@ export type Offer = {
   description: string;
 };
 
+export type HeroSlide = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  price?: string;
+  image: string;
+  href: string;
+};
+
+export const heroSlides: HeroSlide[] = [
+  {
+    eyebrow: "Wednesday Drop",
+    title: "10 Piece Chicken",
+    description: "Hot bucket deal for friends, family and late-night cravings.",
+    price: "Rs 599",
+    image: "/menu/bucket-meal.png",
+    href: "/menu/bucket-meals"
+  },
+  {
+    eyebrow: "Friday Burger Run",
+    title: "Buy 2 Get 1 Classic",
+    description: "Crispy burger stack with a free classic on Fridays.",
+    image: "/menu/zinger-burger.png",
+    href: "/menu/burger"
+  },
+  {
+    eyebrow: "Combo Favorite",
+    title: "Zynger Platter",
+    description: "Burger, strips, chicken, wrap, garlic dips and fries in one loaded plate.",
+    price: "Rs 749",
+    image: "/menu/family-meal.png",
+    href: "/menu/bucket-meals"
+  }
+];
+
 export const offers: Offer[] = [
   {
     title: "Buy Any 2 Burger Get 1 Classic Burger Free",

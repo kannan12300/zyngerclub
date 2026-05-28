@@ -3,7 +3,7 @@ import SectionHeader from "@/components/SectionHeader";
 
 export default function Offers() {
   return (
-    <section id="offers" className="bg-gradient-to-br from-[#EA580C] via-[#F97316] to-[#DC2626] py-14 text-white md:py-20">
+    <section id="offers" className="bg-[linear-gradient(135deg,#130c07_0%,#2a1608_50%,#0b0704_100%)] py-14 text-white md:py-20">
       <div className="section-shell">
         <SectionHeader
           eyebrow="Offer Highlights"
@@ -15,18 +15,18 @@ export default function Offers() {
           {offers.map((offer) => (
             <article
               key={offer.title}
-              className="relative overflow-hidden rounded-[1.25rem] border border-white/25 bg-white p-5 text-[#1F2937] shadow-xl shadow-red-900/15 transition hover:-translate-y-1"
+              className="relative overflow-hidden rounded-[1.25rem] border border-orange-500/25 bg-[#1a120b] p-5 text-[#fff7ed] shadow-xl shadow-black/30 transition hover:-translate-y-1"
             >
               <div className="mb-5 flex items-center justify-between gap-3">
                 <span className="rounded-full bg-red-600 px-4 py-2 text-sm font-extrabold text-white">{offer.label}</span>
                 {offer.price ? (
-                  <span className="rounded-full bg-[#1F2937] px-4 py-2 font-display text-3xl text-[#FDBA21]">
+                  <span className="rounded-full bg-zinc-950 px-4 py-2 font-display text-3xl text-[#FDBA21]">
                     {offer.price}
                   </span>
                 ) : null}
               </div>
               <h3 className="font-display text-4xl uppercase leading-none">{offer.title}</h3>
-              <p className="mt-4 text-base font-semibold leading-7 text-gray-700">{offer.description}</p>
+              <p className="mt-4 text-base font-semibold leading-7 text-[#fed7aa]">{offer.description}</p>
               <a
                 href="#menu"
                 className="focus-ring mt-6 inline-flex min-h-12 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white transition hover:bg-red-600"

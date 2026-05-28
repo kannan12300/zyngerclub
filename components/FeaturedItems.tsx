@@ -14,7 +14,7 @@ const featured = [
 
 export default function FeaturedItems() {
   return (
-    <section className="bg-white py-14 md:py-20">
+    <section className="bg-[linear-gradient(180deg,#0b0704_0%,#130c07_100%)] py-14 md:py-20">
       <div className="section-shell">
         <SectionHeader
           eyebrow="Popular Items"
@@ -25,9 +25,9 @@ export default function FeaturedItems() {
           {featured.map((item) => (
             <article
               key={item.id}
-              className="group min-w-0 overflow-hidden rounded-2xl border border-orange-100 bg-[#FFF7ED] shadow-md shadow-orange-900/10 transition hover:-translate-y-0.5 md:rounded-[1.25rem]"
+              className="group min-w-0 overflow-hidden rounded-2xl border border-orange-500/25 bg-[#1a120b] shadow-md shadow-black/30 transition hover:-translate-y-0.5 md:rounded-[1.25rem]"
             >
-              <div className="relative aspect-[1.15/1] overflow-hidden bg-orange-100 md:aspect-[16/10]">
+              <div className="relative aspect-[1.15/1] overflow-hidden bg-[#21150d] md:aspect-[16/10]">
                 <Image
                   src={getMenuImage(item)}
                   alt={`${item.name} AI-style food visual`}
@@ -40,17 +40,17 @@ export default function FeaturedItems() {
                 <span className="rounded-full bg-red-600 px-2 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white md:px-3 md:text-xs">
                   {item.badge ?? item.category}
                 </span>
-                <h3 className="mt-3 line-clamp-2 font-display text-xl uppercase leading-none text-[#1F2937] md:mt-4 md:text-4xl">
+                <h3 className="mt-3 line-clamp-2 font-display text-xl uppercase leading-none text-[#fff7ed] md:mt-4 md:text-4xl">
                   {item.name}
                 </h3>
-                <p className="mt-2 line-clamp-2 min-h-10 text-xs font-semibold leading-5 text-gray-700 md:mt-3 md:min-h-12 md:text-sm md:leading-6">
+                <p className="mt-2 line-clamp-2 min-h-10 text-xs font-semibold leading-5 text-[#fed7aa] md:mt-3 md:min-h-12 md:text-sm md:leading-6">
                   {item.description ?? item.category}
                 </p>
                 <div className="mt-3 grid gap-2 md:mt-5 md:flex md:items-center md:justify-between md:gap-4">
-                  <p className="font-display text-3xl leading-none text-orange-600 md:text-5xl">₹{item.price}</p>
+                  <p className="font-display text-3xl leading-none text-orange-400 md:text-5xl">Rs {item.price}</p>
                   <a
                     href="#menu"
-                    className="focus-ring min-h-10 rounded-full bg-[#1F2937] px-3 py-2 text-center text-xs font-extrabold text-white transition hover:bg-orange-600 md:min-h-12 md:px-5 md:py-3 md:text-base"
+                    className="focus-ring min-h-10 rounded-full bg-zinc-950 px-3 py-2 text-center text-xs font-extrabold text-white transition hover:bg-orange-600 md:min-h-12 md:px-5 md:py-3 md:text-base"
                   >
                     Order
                   </a>

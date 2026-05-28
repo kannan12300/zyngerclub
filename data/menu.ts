@@ -26,6 +26,61 @@ export type MenuItem = {
   featured?: boolean;
 };
 
+export type CartLine = {
+  item: MenuItem;
+  quantity: number;
+};
+
+export type MenuRouteCategory = {
+  label: string;
+  slug: string;
+  categories: MenuCategory[];
+  description: string;
+};
+
+export const menuRouteCategories: MenuRouteCategory[] = [
+  {
+    label: "Desserts",
+    slug: "desserts",
+    categories: [],
+    description: "Sweet specials can be added here when the dessert menu goes live."
+  },
+  {
+    label: "Drinks",
+    slug: "drinks",
+    categories: ["Mojitos & Lime", "Shakes"],
+    description: "Cold mojitos, fresh lime options and thick shakes."
+  },
+  {
+    label: "Fries",
+    slug: "fries",
+    categories: ["Fries", "Loaded Fries"],
+    description: "Classic fries and loaded fries built for sharing."
+  },
+  {
+    label: "Bucket Meals",
+    slug: "bucket-meals",
+    categories: ["Bucket Meals", "Meals"],
+    description: "Crispy chicken buckets and family meal combos."
+  },
+  {
+    label: "Burger",
+    slug: "burger",
+    categories: ["Burgers"],
+    description: "Zynger burgers, spicy burgers and crunchy classics."
+  },
+  {
+    label: "Pizza",
+    slug: "pizza",
+    categories: ["Pizza"],
+    description: "Small and medium pizzas with chicken, paneer and classic toppings."
+  }
+];
+
+export function getMenuRouteCategory(slug: string) {
+  return menuRouteCategories.find((category) => category.slug === slug);
+}
+
 export const menuCategories: MenuCategory[] = [
   "Meals",
   "Bucket Meals",

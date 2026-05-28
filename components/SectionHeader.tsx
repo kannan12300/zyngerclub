@@ -10,7 +10,7 @@ export default function SectionHeader({ eyebrow, title, description, light }: Se
     <div className="mx-auto mb-8 max-w-3xl text-center">
       <p
         className={`mb-3 inline-flex rounded-full px-4 py-1.5 text-sm font-extrabold uppercase tracking-wide ${
-          light ? "bg-white/15 text-orange-50" : "bg-red-600 text-white"
+          light ? "bg-orange-500/15 text-orange-100" : "bg-red-600 text-white"
         }`}
       >
         {eyebrow}

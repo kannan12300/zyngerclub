@@ -1,20 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { useCart } from "@/components/CartProvider";
+import { menuRouteCategories } from "@/data/menu";
+import { siteInfo } from "@/data/site";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 
-const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Menu", href: "#menu" },
-  { label: "Offers", href: "#offers" },
-  { label: "About", href: "#about" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" }
-];
+const navLinks = [{ label: "Home", href: "/" }, ...menuRouteCategories.map((category) => ({ label: category.label, href: `/menu/${category.slug}` }))];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRootRef = useRef<HTMLElement>(null);
+  const cart = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
@@ -23,88 +22,131 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!navRootRef.current?.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-orange-500/20 transition-colors ${
-        scrolled ? "bg-[#0f0a05] shadow-lg shadow-black/30" : "bg-[#0f0a05]/96"
+      ref={navRootRef}
+      className={`brand-border fixed inset-x-0 top-0 z-50 overflow-visible border-b transition-colors backdrop-blur-xl ${
+        scrolled ? "brand-header-scrolled shadow-lg shadow-black/40" : "brand-header-idle"
       }`}
     >
-      <nav className="section-shell flex h-18 min-h-18 items-center justify-between gap-2 py-3" aria-label="Primary navigation">
-        <a href="#home" className="focus-ring flex shrink-0 items-center gap-2 rounded-full lg:gap-3" onClick={() => setOpen(false)}>
-          <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-orange-600 font-display text-2xl text-white shadow-lg shadow-orange-700/20">
-            Z
+      <nav className="section-shell relative flex h-18 min-h-18 items-center justify-between gap-2 overflow-visible py-3" aria-label="Primary navigation">
+        <Link href="/" className="focus-ring flex min-w-0 shrink-0 items-center gap-2 rounded-full lg:gap-3" onClick={() => setMobileMenuOpen(false)}>
+          <span className="brand-button grid size-11 shrink-0 place-items-center rounded-2xl font-display text-2xl text-white">
+            {siteInfo.shortName}
           </span>
           <span className="min-w-0">
-            <span className="font-display block truncate text-2xl uppercase leading-none text-white lg:text-3xl">Zynger Club</span>
-            <span className="hidden truncate text-xs font-extrabold uppercase tracking-[0.12em] text-orange-400 lg:block">
-              Fried Chicken Cafe
-            </span>
+            <span className="font-display block truncate text-2xl uppercase leading-none text-white lg:text-3xl">{siteInfo.name}</span>
+            <span className="text-accent hidden truncate text-xs font-extrabold uppercase tracking-wide lg:block">{siteInfo.tagline}</span>
           </span>
-        </a>
+        </Link>
 
         <div className="hidden min-w-0 items-center gap-0 md:flex lg:gap-1">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="focus-ring min-h-11 rounded-full px-2 py-3 text-sm font-extrabold text-[#f3d6b3] transition hover:bg-orange-500/15 hover:text-white lg:px-4 lg:text-base"
+              className="focus-ring text-muted-brand nav-hover min-h-11 rounded-full px-2 py-3 text-sm font-extrabold transition hover:text-white lg:px-4 lg:text-base"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
-        <a
-          href="#menu"
-          className="focus-ring hidden min-h-11 rounded-full bg-orange-600 px-5 py-3 text-base font-extrabold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700 lg:inline-flex"
+        <Link
+          href="/cart"
+          className="focus-ring brand-button hidden min-h-11 rounded-full px-5 py-3 text-base font-extrabold text-white transition lg:inline-flex"
         >
-          Order Now
-        </a>
+          Cart {cart.count > 0 ? `(${cart.count})` : ""}
+        </Link>
 
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-label="Toggle navigation menu"
-          onClick={() => setOpen((value) => !value)}
-          className="focus-ring inline-flex size-12 items-center justify-center rounded-2xl border border-orange-500/30 bg-[#20140c] text-3xl font-black leading-none text-orange-400 md:hidden"
-        >
-          {open ? "×" : "☰"}
-        </button>
+        <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <Link
+            href="/cart"
+            aria-label="Open cart"
+            className="focus-ring brand-surface text-accent relative grid size-11 place-items-center rounded-2xl text-lg md:hidden"
+          >
+            <span aria-hidden="true">🛒</span>
+            {cart.count > 0 ? (
+              <span className="bg-danger absolute -right-1 -top-1 grid size-5 place-items-center rounded-full text-[11px] font-black text-white">
+                {cart.count}
+              </span>
+            ) : null}
+          </Link>
+          <a
+            href={createWhatsAppLink()}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Chat on WhatsApp"
+            className="focus-ring whatsapp-button grid size-11 place-items-center rounded-2xl text-lg text-white md:hidden"
+          >
+            <span aria-hidden="true">☎</span>
+          </a>
+          <button
+            type="button"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav-panel"
+            aria-label="Toggle navigation menu"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="focus-ring brand-surface text-accent pointer-events-auto inline-flex min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded-2xl text-2xl font-black leading-none md:hidden"
+          >
+            {mobileMenuOpen ? "x" : "☰"}
+          </button>
+        </div>
       </nav>
 
-      {open ? (
-        <div className="border-t border-orange-500/20 bg-[#0f0a05] px-4 py-5 shadow-xl md:hidden">
-          <div className="mx-auto grid max-w-xl gap-3">
+      {mobileMenuOpen ? (
+        <div
+          id="mobile-nav-panel"
+          data-testid="mobile-nav-panel"
+          className="brand-glass pointer-events-auto absolute right-4 top-full z-[9999] mt-3 w-[min(20rem,calc(100vw-2rem))] origin-top-right rounded-2xl p-4 opacity-100 transition duration-150 ease-out [transform:translateY(0)_scale(1)] md:hidden"
+        >
+          <div className="grid gap-2">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setOpen(false)}
-                className="focus-ring min-h-12 rounded-2xl bg-[#20140c] px-5 py-4 text-lg font-extrabold text-white"
+                onClick={() => setMobileMenuOpen(false)}
+                className="focus-ring mobile-panel-link pointer-events-auto min-h-[44px] touch-manipulation rounded-xl px-4 py-3 text-base font-extrabold"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <div className="grid gap-3 sm:grid-cols-3">
-              <a
-                href="#menu"
-                onClick={() => setOpen(false)}
-                className="focus-ring min-h-12 rounded-2xl bg-[#fff7ed] px-4 py-4 text-center font-extrabold text-[#1f2937] ring-2 ring-orange-500"
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <Link
+                href="/cart"
+                onClick={() => setMobileMenuOpen(false)}
+                className="focus-ring brand-button pointer-events-auto min-h-[44px] touch-manipulation rounded-xl px-3 py-3 text-center text-sm font-extrabold text-white"
               >
-                View Menu
-              </a>
-              <a
-                href="#menu"
-                onClick={() => setOpen(false)}
-                className="focus-ring min-h-12 rounded-2xl bg-orange-600 px-4 py-4 text-center font-extrabold text-white"
-              >
-                Order Online
-              </a>
+                Cart
+              </Link>
               <a
                 href={createWhatsAppLink()}
                 target="_blank"
                 rel="noreferrer"
-                className="focus-ring min-h-12 rounded-2xl bg-green-600 px-4 py-4 text-center font-extrabold text-white"
+                className="focus-ring pointer-events-auto min-h-[44px] touch-manipulation rounded-xl bg-green-600 px-3 py-3 text-center text-sm font-extrabold text-white"
               >
                 WhatsApp
               </a>

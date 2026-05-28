@@ -25,13 +25,30 @@ test.describe("responsive layout", () => {
       await expect(page.locator("#home")).toBeVisible();
       await expect(page.locator("#menu")).toBeVisible();
 
+      const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+      expect(background).not.toBe("rgb(255, 255, 255)");
+      expect(background).not.toBe("rgb(255, 247, 237)");
+      const darkBody = await page.evaluate(() => {
+        const color = getComputedStyle(document.body).backgroundColor.match(/\d+/g)?.map(Number) ?? [];
+        return color.length >= 3 && color[0] < 40 && color[1] < 30 && color[2] < 25;
+      });
+      expect(darkBody).toBeTruthy();
+
+      if (viewport.width === 1366) {
+        const heroBox = await page.locator("#home").boundingBox();
+        expect(heroBox?.height ?? 9999).toBeLessThanOrEqual(520);
+      }
+
       const offenders = await getOverflowOffenders(page);
       if (offenders.length > 0) {
         console.log(`${viewport.name} overflow offenders`, JSON.stringify(offenders, null, 2));
       }
 
       await page.screenshot({
-        path: path.join(screenshotDir, `${viewport.name}.png`),
+        path: path.join(
+          screenshotDir,
+          viewport.name === "mobile-normal" ? "mobile-dark.png" : viewport.name === "laptop" ? "laptop-dark.png" : `${viewport.name}.png`
+        ),
         fullPage: true,
         timeout: 10_000
       });
@@ -56,9 +73,35 @@ test.describe("responsive layout", () => {
       }
 
       if (viewport.width < 768) {
-        await expect(page.getByRole("button", { name: /toggle navigation menu/i })).toBeVisible();
+        const hamburger = page.getByRole("button", { name: /toggle navigation menu/i });
+        await expect(hamburger).toBeVisible();
+        await hamburger.click();
+        const panel = page.getByTestId("mobile-nav-panel");
+        await expect(panel).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Home" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Menu" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Offers" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "About" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Gallery" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Contact" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "Order Now" })).toBeVisible();
+        await expect(panel.getByRole("link", { name: "WhatsApp" })).toBeVisible();
+        const panelBox = await panel.boundingBox();
+        expect(panelBox?.width ?? 9999).toBeLessThanOrEqual(340);
+        await page.screenshot({
+          path: path.join(screenshotDir, "mobile-dark.png"),
+          fullPage: true,
+          timeout: 10_000
+        });
+        await page.mouse.click(12, viewport.height - 12);
+        await expect(panel).toBeHidden();
+        await hamburger.click();
+        await expect(panel).toBeVisible();
+        await page.keyboard.press("Escape");
+        await expect(panel).toBeHidden();
       } else {
         await expect(page.locator("nav").getByRole("link", { name: "Menu" }).first()).toBeVisible();
+        await expect(page.getByRole("button", { name: /toggle navigation menu/i })).toBeHidden();
       }
     });
   }

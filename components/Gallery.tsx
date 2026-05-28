@@ -10,7 +10,7 @@ const gallery = [
 
 export default function Gallery() {
   return (
-    <section id="gallery" className="bg-[#FFF7ED] py-14 md:py-20">
+    <section id="gallery" className="bg-[linear-gradient(180deg,#130c07_0%,#0b0704_100%)] py-14 md:py-20">
       <div className="section-shell">
         <SectionHeader
           eyebrow="Gallery"
@@ -21,7 +21,7 @@ export default function Gallery() {
           {gallery.map((image) => (
             <article
               key={image.src}
-              className="group min-w-[82%] snap-center overflow-hidden rounded-[1.25rem] border border-orange-100 bg-white shadow-lg shadow-orange-900/10 sm:min-w-[44%] lg:min-w-0"
+              className="group min-w-[82%] snap-center overflow-hidden rounded-[1.25rem] border border-orange-500/25 bg-[#1a120b] shadow-lg shadow-black/30 sm:min-w-[44%] lg:min-w-0"
             >
               <div className="relative aspect-[9/12] overflow-hidden">
                 <Image
@@ -31,8 +31,8 @@ export default function Gallery() {
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 44vw, 82vw"
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/95 p-4 shadow-lg">
-                  <p className="font-display text-3xl uppercase leading-none text-[#1F2937]">{image.label}</p>
+                <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-orange-500/25 bg-[#1a120b]/95 p-4 shadow-lg">
+                  <p className="font-display text-3xl uppercase leading-none text-[#fff7ed]">{image.label}</p>
                   <p className="mt-1 text-xs font-extrabold uppercase tracking-wide text-red-600">Demo visual</p>
                 </div>
               </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
-import type { CartLine } from "@/components/MenuSection";
+import type { CartLine } from "@/data/menu";
+import { siteInfo } from "@/data/site";
 import { createWhatsAppLink } from "@/lib/whatsapp";
 
 type DeliveryType = "Delivery" | "Pickup";
@@ -16,6 +17,7 @@ type OrderCartProps = {
   onDecrement: (id: string) => void;
   onRemove: (id: string) => void;
   onClear: () => void;
+  displayMode?: "responsive" | "embedded";
 };
 
 type Customer = {
@@ -81,11 +83,11 @@ const paymentCards: Record<
   "Pay at Store": {
     icon: "🏪",
     title: "Pay at Store",
-    description: "Pay directly at Zynger Club during pickup."
+    description: `Pay directly at ${siteInfo.name} during pickup.`
   }
 };
 
-export default function OrderCart({ lines, total, onIncrement, onDecrement, onRemove, onClear }: OrderCartProps) {
+export default function OrderCart({ lines, total, onIncrement, onDecrement, onRemove, onClear, displayMode = "responsive" }: OrderCartProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [step, setStep] = useState<Step>("cart");
   const [customer, setCustomer] = useState<Customer>(initialCustomer);
@@ -144,7 +146,7 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
       key,
       amount: total * 100,
       currency: "INR",
-      name: "Zynger Club",
+      name: siteInfo.name,
       description: `Demo order payment for ${customer.deliveryType}`,
       handler: () => createOrder("razorpay"),
       prefill: {
@@ -152,7 +154,7 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
         contact: customer.phone
       },
       theme: {
-        color: "#F97316"
+        color: siteInfo.paymentThemeColor
       }
     });
 
@@ -169,7 +171,13 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
 
   return (
     <>
-      <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-hidden rounded-[1.5rem] border border-orange-200 bg-white shadow-xl shadow-orange-900/12 xl:block">
+      <aside
+        className={
+          displayMode === "embedded"
+            ? "overflow-hidden rounded-[1.5rem] bg-[#1a120b]"
+            : "sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-hidden rounded-[1.5rem] border border-orange-500/25 bg-[#1a120b] shadow-xl shadow-black/30 xl:block"
+        }
+      >
         <CartPanel
           title="Your Cart"
           lines={lines}
@@ -179,10 +187,11 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
           onRemove={onRemove}
           onClear={onClear}
           onCheckout={openCheckout}
+          compact={displayMode === "embedded"}
         />
       </aside>
 
-      {count > 0 ? (
+      {displayMode === "responsive" && count > 0 ? (
         <button
           type="button"
           aria-label="Open cart"
@@ -196,7 +205,7 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
         </button>
       ) : null}
 
-      {drawerOpen ? (
+      {displayMode === "responsive" && drawerOpen ? (
         <div className="fixed inset-0 z-[60] xl:hidden" role="dialog" aria-modal="true" aria-label={drawerTitle}>
           <button
             type="button"
@@ -204,14 +213,14 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
             className="absolute inset-0 bg-black/45"
             onClick={() => setDrawerOpen(false)}
           />
-          <div className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-hidden rounded-t-[1.5rem] bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-orange-100 px-4 py-4">
-              <h3 className="font-display text-3xl uppercase text-[#1F2937]">{drawerTitle}</h3>
+          <div className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-hidden rounded-t-[1.5rem] bg-[#1a120b] shadow-2xl">
+            <div className="flex items-center justify-between border-b border-orange-500/25 px-4 py-4">
+              <h3 className="font-display text-3xl uppercase text-[#fff7ed]">{drawerTitle}</h3>
               <button
                 type="button"
                 aria-label="Close cart drawer"
                 onClick={() => setDrawerOpen(false)}
-                className="focus-ring grid size-11 place-items-center rounded-full bg-orange-100 text-2xl font-black text-orange-800"
+                className="focus-ring grid size-11 place-items-center rounded-full bg-[#21150d] text-2xl font-black text-orange-200"
               >
                 ×
               </button>
@@ -258,15 +267,20 @@ export default function OrderCart({ lines, total, onIncrement, onDecrement, onRe
       ) : null}
 
       {step !== "cart" ? (
-        <div className="fixed inset-0 z-[60] hidden place-items-center bg-black/45 p-5 xl:grid" role="dialog" aria-modal="true" aria-label={drawerTitle}>
-          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[1.5rem] bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-orange-100 px-6 py-4">
-              <h3 className="font-display text-4xl uppercase text-[#1F2937]">{drawerTitle}</h3>
+        <div
+          className={`fixed inset-0 z-[60] place-items-center bg-black/45 p-5 ${displayMode === "embedded" ? "grid" : "hidden xl:grid"}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={drawerTitle}
+        >
+          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[1.5rem] bg-[#1a120b] shadow-2xl">
+            <div className="flex items-center justify-between border-b border-orange-500/25 px-6 py-4">
+              <h3 className="font-display text-4xl uppercase text-[#fff7ed]">{drawerTitle}</h3>
               <button
                 type="button"
                 aria-label="Close checkout"
                 onClick={() => setStep("cart")}
-                className="focus-ring grid size-11 place-items-center rounded-full bg-orange-100 text-2xl font-black text-orange-800"
+                className="focus-ring grid size-11 place-items-center rounded-full bg-[#21150d] text-2xl font-black text-orange-200"
               >
                 ×
               </button>
@@ -315,24 +329,24 @@ function CartPanel({
   return (
     <div className={compact ? "" : "flex max-h-[calc(100vh-7rem)] flex-col"}>
       {!compact ? (
-        <div className="bg-[#1F2937] p-5 text-white">
+        <div className="bg-zinc-950 p-5 text-white">
           <p className="text-sm font-extrabold uppercase tracking-wide text-orange-200">Order Online</p>
           <h3 className="font-display text-4xl uppercase">{title}</h3>
         </div>
       ) : null}
       <div className="space-y-3 overflow-auto p-0 lg:p-4">
         {lines.length === 0 ? (
-          <div className="rounded-2xl bg-orange-50 p-5 text-center">
-            <p className="font-display text-3xl uppercase text-[#1F2937]">Start with a crispy pick</p>
-            <p className="mt-2 text-base font-semibold text-gray-700">Add menu items, then checkout or send on WhatsApp.</p>
+          <div className="rounded-2xl bg-[#21150d] p-5 text-center">
+            <p className="font-display text-3xl uppercase text-[#fff7ed]">Start with a crispy pick</p>
+            <p className="mt-2 text-base font-semibold text-[#fed7aa]">Add menu items, then checkout or send on WhatsApp.</p>
           </div>
         ) : (
           lines.map((line) => (
-            <div key={line.item.id} className="rounded-2xl border border-orange-100 bg-orange-50/70 p-3">
+            <div key={line.item.id} className="rounded-2xl border border-orange-500/25 bg-[#21150d] p-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-base font-extrabold text-[#1F2937]">{line.item.name}</p>
-                  <p className="text-sm font-bold text-orange-700">
+                  <p className="text-base font-extrabold text-[#fff7ed]">{line.item.name}</p>
+                  <p className="text-sm font-bold text-orange-200">
                     ₹{line.item.price} × {line.quantity} = ₹{line.item.price * line.quantity}
                   </p>
                 </div>
@@ -340,7 +354,7 @@ function CartPanel({
                   type="button"
                   onClick={() => onRemove(line.item.id)}
                   aria-label={`Remove ${line.item.name}`}
-                  className="focus-ring grid size-10 place-items-center rounded-full bg-white text-xl font-black text-red-600"
+                  className="focus-ring grid size-10 place-items-center rounded-full bg-zinc-950 text-xl font-black text-red-500"
                 >
                   ×
                 </button>
@@ -350,7 +364,7 @@ function CartPanel({
                   type="button"
                   onClick={() => onDecrement(line.item.id)}
                   aria-label={`Decrease ${line.item.name}`}
-                  className="focus-ring grid size-11 place-items-center rounded-full bg-white text-lg font-extrabold text-orange-700"
+                  className="focus-ring grid size-11 place-items-center rounded-full bg-zinc-950 text-lg font-extrabold text-white"
                 >
                   -
                 </button>
@@ -359,7 +373,7 @@ function CartPanel({
                   type="button"
                   onClick={() => onIncrement(line.item.id)}
                   aria-label={`Increase ${line.item.name}`}
-                  className="focus-ring grid size-11 place-items-center rounded-full bg-white text-lg font-extrabold text-orange-700"
+                  className="focus-ring grid size-11 place-items-center rounded-full bg-zinc-950 text-lg font-extrabold text-white"
                 >
                   +
                 </button>
@@ -368,9 +382,9 @@ function CartPanel({
           ))
         )}
       </div>
-      <div className="border-t border-orange-100 p-0 pt-4 lg:p-4">
+      <div className="border-t border-orange-500/25 p-0 pt-4 lg:p-4">
         <div className="mb-4 flex items-center justify-between">
-          <span className="text-base font-extrabold text-gray-700">Total</span>
+          <span className="text-base font-extrabold text-[#fed7aa]">Total</span>
           <span className="font-display text-4xl text-orange-600">₹{total}</span>
         </div>
         <div className="grid gap-2">
@@ -394,7 +408,7 @@ function CartPanel({
             type="button"
             onClick={onClear}
             disabled={lines.length === 0}
-            className="focus-ring min-h-12 rounded-full border-2 border-orange-600 bg-white px-4 py-3 text-base font-extrabold text-orange-700 transition hover:bg-orange-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="focus-ring min-h-12 rounded-full border-2 border-orange-500 bg-orange-100 px-4 py-3 text-base font-extrabold text-zinc-950 transition hover:bg-orange-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Clear Cart
           </button>
@@ -438,9 +452,9 @@ function CheckoutForm({
 
   return (
     <div className="grid gap-5">
-      <div className="rounded-2xl bg-orange-50 p-4">
+      <div className="rounded-2xl bg-[#21150d] p-4">
         <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">Demo ordering system</p>
-        <p className="mt-1 text-base font-semibold text-gray-700">
+        <p className="mt-1 text-base font-semibold text-[#fed7aa]">
           Pay Now opens Razorpay when a public key exists. Otherwise it uses clearly labeled demo payment mode.
         </p>
       </div>
@@ -472,7 +486,7 @@ function CheckoutForm({
               type="button"
               onClick={() => changeDeliveryType(type)}
               className={`focus-ring min-h-12 rounded-2xl px-4 py-3 text-base font-extrabold transition ${
-                customer.deliveryType === type ? "bg-orange-600 text-white shadow-lg shadow-orange-600/25" : "border-2 border-orange-200 bg-white text-orange-700"
+                customer.deliveryType === type ? "bg-orange-600 text-white shadow-lg shadow-orange-600/25" : "border-2 border-orange-500 bg-[#21150d] text-orange-100"
               }`}
             >
               {type}
@@ -506,7 +520,7 @@ function CheckoutForm({
       </Field>
 
       {customer.deliveryType === "Pickup" && customer.paymentMethod === "Pay at Store" ? (
-        <Notice>Please pay at Zynger Club counter during pickup.</Notice>
+        <Notice>Please pay at {siteInfo.name} counter during pickup.</Notice>
       ) : null}
       {customer.deliveryType === "Delivery" && customer.paymentMethod === "Cash on Delivery" ? (
         <Notice>Your order will be paid during delivery.</Notice>
@@ -521,7 +535,7 @@ function CheckoutForm({
         <button
           type="button"
           onClick={onBack}
-          className="focus-ring min-h-12 rounded-full border-2 border-orange-600 bg-white px-5 py-3 text-base font-extrabold text-orange-700"
+          className="focus-ring min-h-12 rounded-full border-2 border-orange-500 bg-orange-100 px-5 py-3 text-base font-extrabold text-zinc-950"
         >
           Back to Cart
         </button>
@@ -555,15 +569,15 @@ function PaymentCard({
       onClick={onSelect}
       className={`focus-ring min-h-28 rounded-2xl border-2 p-4 text-left transition ${
         selected
-          ? "scale-[1.01] border-orange-600 bg-orange-50 shadow-[0_0_0_4px_rgba(249,115,22,0.16),0_18px_40px_rgba(234,88,12,0.16)]"
-          : "border-orange-100 bg-white hover:border-orange-300"
+          ? "scale-[1.01] border-orange-500 bg-[#21150d] shadow-[0_0_0_4px_rgba(249,115,22,0.18),0_18px_40px_rgba(0,0,0,0.28)]"
+          : "border-orange-500/25 bg-[#1a120b] hover:border-orange-400"
       }`}
     >
-      <span className={`grid size-11 place-items-center rounded-full text-lg font-black ${selected ? "bg-orange-600 text-white" : "bg-orange-100 text-orange-700"}`}>
+      <span className={`grid size-11 place-items-center rounded-full text-lg font-black ${selected ? "bg-orange-600 text-white" : "bg-[#21150d] text-orange-200"}`}>
         {card.icon}
       </span>
-      <span className="mt-3 block text-lg font-extrabold text-[#1F2937]">{card.title}</span>
-      <span className="mt-1 block text-sm font-semibold leading-6 text-gray-700">{card.description}</span>
+      <span className="mt-3 block text-lg font-extrabold text-[#fff7ed]">{card.title}</span>
+      <span className="mt-1 block text-sm font-semibold leading-6 text-[#fed7aa]">{card.description}</span>
     </button>
   );
 }
@@ -588,12 +602,12 @@ function SuccessScreen({
 
   return (
     <div className="grid gap-5">
-      <div className="rounded-2xl bg-green-50 p-5 text-center">
+      <div className="rounded-2xl bg-[#12351d] p-5 text-center">
         <div className="mx-auto grid size-20 place-items-center rounded-full bg-green-600 text-4xl font-black text-white shadow-lg shadow-green-700/20">
           ✓
         </div>
-        <p className="mt-4 text-sm font-extrabold uppercase tracking-wide text-green-700">Status: Order placed demo</p>
-        <h4 className="mt-2 font-display text-4xl uppercase text-[#1F2937]">{orderId}</h4>
+        <p className="mt-4 text-sm font-extrabold uppercase tracking-wide text-green-200">Status: Order placed demo</p>
+        <h4 className="mt-2 font-display text-4xl uppercase text-[#fff7ed]">{orderId}</h4>
         <p className="mt-2 text-base font-extrabold text-orange-700">{estimate}</p>
         {paymentResult === "demo" ? (
           <p className="mt-3 rounded-xl bg-yellow-100 p-3 text-base font-extrabold text-yellow-900">
@@ -604,12 +618,12 @@ function SuccessScreen({
           <p className="mt-3 rounded-xl bg-green-100 p-3 text-base font-extrabold text-green-900">Payment successful via Razorpay.</p>
         ) : null}
         {paymentResult === "store" ? (
-          <p className="mt-3 rounded-xl bg-orange-100 p-3 text-base font-extrabold text-orange-900">
-            Please pay at Zynger Club counter during pickup.
+          <p className="mt-3 rounded-xl bg-[#21150d] p-3 text-base font-extrabold text-[#fed7aa]">
+            Please pay at {siteInfo.name} counter during pickup.
           </p>
         ) : null}
         {paymentResult === "cod" ? (
-          <p className="mt-3 rounded-xl bg-orange-100 p-3 text-base font-extrabold text-orange-900">
+          <p className="mt-3 rounded-xl bg-[#21150d] p-3 text-base font-extrabold text-[#fed7aa]">
             Your order will be paid during delivery.
           </p>
         ) : null}
@@ -618,9 +632,9 @@ function SuccessScreen({
 
       <OrderSummary lines={lines} total={total} />
 
-      <div className="rounded-2xl border border-orange-100 bg-white p-4">
+      <div className="rounded-2xl border border-orange-500/25 bg-[#1a120b] p-4">
         <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">Customer details</p>
-        <div className="mt-3 grid gap-2 text-base font-semibold text-gray-800">
+        <div className="mt-3 grid gap-2 text-base font-semibold text-[#fed7aa]">
           <p>Name: {customer.name}</p>
           <p>Phone: {customer.phone}</p>
           <p>Type: {customer.deliveryType}</p>
@@ -633,7 +647,7 @@ function SuccessScreen({
         <button
           type="button"
           onClick={() => window.print()}
-          className="focus-ring min-h-12 rounded-full bg-[#1F2937] px-5 py-3 text-base font-extrabold text-white"
+          className="focus-ring min-h-12 rounded-full bg-zinc-950 px-5 py-3 text-base font-extrabold text-white"
         >
           Download / Print Receipt
         </button>
@@ -648,7 +662,7 @@ function SuccessScreen({
         <a
           href="#menu"
           onClick={onBackToMenu}
-          className="focus-ring min-h-12 rounded-full border-2 border-orange-600 bg-white px-5 py-3 text-center text-base font-extrabold text-orange-700"
+          className="focus-ring min-h-12 rounded-full border-2 border-orange-500 bg-orange-100 px-5 py-3 text-center text-base font-extrabold text-zinc-950"
         >
           Back to Menu
         </a>
@@ -670,11 +684,11 @@ function OrderSummary({ lines, total }: { lines: CartLine[]; total: number }) {
   );
 
   return (
-    <div className="rounded-2xl border border-orange-100 bg-orange-50 p-4">
+    <div className="rounded-2xl border border-orange-500/25 bg-[#21150d] p-4">
       <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">Order summary</p>
       <div className="mt-3 space-y-2">
         {rows.map((row) => (
-          <div key={row.id} className="flex items-start justify-between gap-3 text-base font-semibold text-[#1F2937]">
+          <div key={row.id} className="flex items-start justify-between gap-3 text-base font-semibold text-[#fff7ed]">
             <span>
               {row.quantity} × {row.name}
             </span>
@@ -682,7 +696,7 @@ function OrderSummary({ lines, total }: { lines: CartLine[]; total: number }) {
           </div>
         ))}
       </div>
-      <div className="mt-4 flex items-center justify-between border-t border-orange-200 pt-3">
+      <div className="mt-4 flex items-center justify-between border-t border-orange-500/25 pt-3">
         <span className="text-base font-extrabold">Total</span>
         <span className="font-display text-4xl text-orange-600">₹{total}</span>
       </div>
@@ -692,7 +706,7 @@ function OrderSummary({ lines, total }: { lines: CartLine[]; total: number }) {
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <label className="grid gap-2 text-base font-extrabold text-[#1F2937]">
+    <label className="grid gap-2 text-base font-extrabold text-[#fff7ed]">
       {label}
       {children}
     </label>
@@ -700,7 +714,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function Notice({ children }: { children: ReactNode }) {
-  return <div className="rounded-2xl bg-orange-50 p-4 text-base font-extrabold text-orange-900">{children}</div>;
+  return <div className="rounded-2xl bg-[#21150d] p-4 text-base font-extrabold text-[#fed7aa]">{children}</div>;
 }
 
 function loadRazorpay() {

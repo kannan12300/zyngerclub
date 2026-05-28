@@ -12,7 +12,7 @@ const details = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="bg-white py-16 md:py-24">
+    <section id="contact" className="bg-[linear-gradient(180deg,#0b0704_0%,#130c07_100%)] py-16 md:py-24">
       <div className="section-shell">
         <SectionHeader
           eyebrow="Contact"
@@ -39,9 +39,9 @@ export default function Contact() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {details.map((detail) => (
-              <div key={detail.label} className="rounded-[1.25rem] border border-orange-100 bg-[#FFF7ED] p-5 shadow-lg shadow-orange-900/10 md:p-6">
+              <div key={detail.label} className="rounded-[1.25rem] border border-orange-500/25 bg-[#1a120b] p-5 shadow-lg shadow-black/30 md:p-6">
                 <p className="text-sm font-extrabold uppercase tracking-wide text-red-600">{detail.label}</p>
-                <p className="mt-3 text-lg font-extrabold leading-7 text-[#1F2937]">{detail.value}</p>
+                <p className="mt-3 text-lg font-extrabold leading-7 text-[#fff7ed]">{detail.value}</p>
               </div>
             ))}
           </div>
@@ -57,7 +57,7 @@ function ActionButton({ href, label, external }: { href: string; label: string; 
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      className="focus-ring min-h-12 rounded-full bg-white px-5 py-3 text-center text-base font-extrabold text-[#1F2937] transition hover:bg-[#FDBA21]"
+      className="focus-ring min-h-12 rounded-full bg-orange-100 px-5 py-3 text-center text-base font-extrabold text-zinc-950 transition hover:bg-[#FDBA21]"
     >
       {label}
     </a>
