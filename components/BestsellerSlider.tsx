@@ -18,41 +18,41 @@ export default function BestsellerSlider() {
   const cart = useCart();
 
   return (
-    <section className="section-band py-12 md:py-16">
+    <section className="section-band py-8 md:py-10">
       <div className="section-shell">
-        <div className="mb-5 flex items-end justify-between gap-3">
+        <div className="mb-4 flex items-end justify-between gap-3">
           <div>
             <p className="text-accent text-xs font-extrabold uppercase tracking-wide">Bestsellers</p>
-            <h2 className="font-display text-4xl uppercase leading-none text-white md:text-6xl">Most Ordered</h2>
+            <h2 className="font-display text-3xl uppercase leading-none text-white md:text-5xl">Most Ordered</h2>
           </div>
-          <Link href="/menu/burger" className="focus-ring brand-surface text-muted-brand shrink-0 rounded-full px-4 py-3 text-sm font-extrabold">
+          <Link href="/menu/burger" className="focus-ring brand-surface text-muted-brand shrink-0 rounded-full px-3 py-2 text-xs font-extrabold">
             View all
           </Link>
         </div>
 
-        <div className="snap-gallery flex gap-3 overflow-x-auto pb-2">
+        <div className="snap-gallery flex gap-2 overflow-x-auto pb-2">
           {bestsellers.map((item) => (
             <article
               key={item.id}
-              className="brand-surface w-[72vw] max-w-[19rem] shrink-0 snap-start overflow-hidden rounded-2xl sm:w-[20rem]"
+              className="brand-surface w-[42vw] max-w-[10rem] shrink-0 snap-start overflow-hidden rounded-2xl sm:w-[11rem] md:max-w-[12rem]"
             >
-              <div className="bg-card-strong relative aspect-[4/3] overflow-hidden">
+              <div className="bg-card-strong relative aspect-[1.05/1] overflow-hidden">
                 <Image src={getMenuImage(item)} alt={`${item.name} bestseller`} fill sizes="320px" className="object-cover" />
-                <span className="bg-danger absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-extrabold uppercase text-white">
+                <span className="bg-danger absolute left-2 top-2 max-w-[75%] truncate rounded-full px-2 py-1 text-[9px] font-extrabold uppercase text-white">
                   {item.badge ?? item.category}
                 </span>
               </div>
-              <div className="p-4">
-                <h3 className="line-clamp-2 min-h-12 font-display text-3xl uppercase leading-none text-white">{item.name}</h3>
-                <p className="text-muted-brand mt-2 line-clamp-2 min-h-10 text-sm font-semibold leading-5">
+              <div className="p-2.5">
+                <h3 className="line-clamp-2 min-h-8 font-display text-base uppercase leading-none text-white md:text-xl">{item.name}</h3>
+                <p className="text-muted-brand mt-1 line-clamp-2 min-h-8 text-[10px] font-semibold leading-4">
                   {item.description ?? `${item.category} bestseller.`}
                 </p>
-                <div className="mt-4 flex items-center justify-between gap-3">
-                  <span className="text-accent font-display text-4xl leading-none">Rs {item.price}</span>
+                <div className="mt-2 grid gap-1">
+                  <span className="text-accent font-display text-2xl leading-none">Rs {item.price}</span>
                   <button
                     type="button"
                     onClick={() => cart.addItem(item)}
-                    className="focus-ring brand-button min-h-11 rounded-full px-4 py-3 text-sm font-extrabold text-white"
+                    className="focus-ring brand-button min-h-9 rounded-full px-3 py-2 text-[11px] font-extrabold text-white"
                   >
                     Add
                   </button>
